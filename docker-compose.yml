@@ -1,0 +1,39 @@
+version: "3.9"
+services:
+  jm-monitor:
+    build: 
+      context: image
+    container_name: jm-monitor
+    volumes:
+      - type: bind
+        source: ~/Journals
+        target: /journals/journals-files/
+      - type: bind
+        source: build/site
+        target: /journals/site/
+      - type: volume
+        source: jm-config
+        target: /journals/.config
+    entrypoint:
+      - "scripts/execution-stage/monitor-files/monitor-files.sh"
+    depends_on:
+      - "jm-server"
+  jm-server:
+    build: 
+      context: image
+    container_name: jm-server
+    ports:
+      - "5961:80"
+    volumes:
+      - type: bind
+        source: ~/Journals
+        target: /journals/journals-files/
+      - type: bind
+        source: build/site/
+        target: /journals/site/
+      - type: volume
+        source: jm-config
+        target: /journals/.config
+volumes:
+  jm-config:
+
