@@ -9,17 +9,27 @@ mkdir -p "${OUTPUT_FOLDER}"
 
 BUILD_MODE="${1}"
 
-pushd "${OUTPUT_FOLDER}" >/dev/null
+if [[ "${BUILD_MODE}" = "test" ]]
+then
+    pip install /journals/deploy-package/test/*.whl
+elif [[ "${BUILD_MODE}" = "production" ]]
+then
+    pip install /journals/deploy-package/production/*.whl
+elif [[ "${BUILD_MODE}" = "release" ]]
+then
+    pip install journal-manager
+else
+    echo "Build mode: ${BUILD_MODE} not recognized."
+    exit 1
+fi
 
-    git clone https://github.com/danoan/journal-manager
-    cd journal-manager
-    pip install .
+# ls /root/journals does not work. ls /journals does work.
+# during the building of the docker image, the paths are relative to workdir
+# I am using /root in some of the paths below because those are stored and used later
+# by the journal-manager app
 
-    echo "Initializing journal-manager"
-    jm setup init --default-journal-folder "/journals/journals-files" --default-template-folder "/journals/templates" --default-text-editor "vim"
-
-    echo "Registering quick-notes template**"
-    jm template register quick-notes "templates/quick-notes"
-
-popd > /dev/null
+echo "Initializing journal-manager*"
+jm setup init --default-journal-folder "/journals/journals-files" --default-template-folder "/journals/templates" --default-text-editor "vim"
+jm template register quick-notes "/journals/templates-temp/quick-notes"
+rm -rf "/journals/templates-temp"
 

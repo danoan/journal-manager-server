@@ -12,7 +12,7 @@ BUILD_FOLDER="${OUTPUT_FOLDER}/build"
 rm -rf "${BUILD_FOLDER}"
 mkdir -p "${BUILD_FOLDER}"
 
-jm b --ignore-safety-questions --build-location "${BUILD_FOLDER}" --build-instructions "${INPUT_FOLDER}/build-instructions.toml"  
+jm b --ignore-safety-questions --build-inactive --build-location "${BUILD_FOLDER}" --build-instructions "${INPUT_FOLDER}/build-instructions.toml"  
 
 rm -rf "${PROJECT_PATH}/site-old"
 mkdir -p "${PROJECT_PATH}/site-old" 

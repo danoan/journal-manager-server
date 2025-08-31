@@ -26,3 +26,5 @@ jm b --do-not-build-index --ignore-safety-questions --build-location "${BUILD_FO
 rm -rf "${PROJECT_PATH}/site/${JOURNAL_FOLDER_NAME}"
 mv -f "${BUILD_FOLDER}/site/${JOURNAL_FOLDER_NAME}" "${PROJECT_PATH}/site"
 
+# ls -lsah "${PROJECT_PATH}/site"
+
